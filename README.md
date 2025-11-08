@@ -62,7 +62,6 @@ Import the main script (`HashPulse_Audit.sql`) and review the parameters at the 
 
 ```sql
 DECLARE @TabelaProducao SYSNAME = N'tbProducao';
-DECLARE @TabelaHomologacao SYSNAME = N'tbHomologacao';
 DECLARE @ColunasChave NVARCHAR(MAX) = N'codigo_simulacao,modelo_agrup';
 DECLARE @ColunasExcecao NVARCHAR(MAX) = N'data_parametro,expansao';
 ```
@@ -78,10 +77,10 @@ Look for the entropy percentage, delta counts, and reliability score. The higher
 Example summary:
 
 ```
-Entropia: 82.3%
-Diagnóstico: Muito alta — Tabela saudável.
-Confiabilidade: 99.94%
-✅ Integridade dentro da faixa esperada.
+Entropy: 82.3%
+Diagnosis: Very high — Healthy Table.
+Reliability: 99.94%
+✅ Integrity within expected range.
 ```
 
 #### **5️⃣ Optional JSON Export**
@@ -96,12 +95,11 @@ Output example:
 
 ```json
 {
-  "TabelaProducao": "tbProducao",
-  "TabelaHomologacao": "tbHomologacao",
-  "DataExecucao": "2025-11-08T10:12:54Z",
-  "AuditoriaDeltas": [
-    {"Chave": "1234|A1", "TipoDelta": "HASH", "Mensagem": "Diferença imprevista"},
-    {"Chave": "1288|A3", "TipoDelta": "NEW", "Mensagem": "Registro novo"}
+  "ProductionTable": "tbProducao",
+  "ExecutionDate": "2025-11-08T10:12:54Z",
+  "AuditDeltas": [
+    {"Key": "1234|A1", "DeltaType": "HASH", "Message": "Unexpected difference"},
+    {"Key": "1288|A3", "DeltaType": "NEW", "Message": "New record"}
   ]
 }
 ```
@@ -111,23 +109,23 @@ Output example:
 ### 🧮 Example Output
 
 ```
-📊 AUDITORIA DE TABELAS – RELATÓRIO EXECUTIVO
-Data de Execução: 2025-11-08 10:12:54
-Tabela Produção : [tbProducao]
-Tabela Homolog. : [tbHomologacao]
+📊 TABLE AUDIT – EXECUTIVE SUMMARY REPORT
+Execution Date: 2025-11-08 10:12:54
+Production Table: [tbProducao]
+Staging Table:    [tbHomologacao]
 
-Resumo de Deltas
-Registros novos:      145
-Registros excluídos:   98
-Hash divergente:       21
-Chaves duplicadas:     0
-Hashes duplicados:     4
+Deltas Summary
+New Records:        145
+Deleted Records:    98
+Divergent Hash:     21
+Duplicate Keys:     0
+Duplicate Hashes:   4
 
-Entropia:              82.3%
-Diagnóstico:           Muito alta — Tabela saudável.
-Confiabilidade:        99.94%
-✅ Integridade dentro da faixa esperada.
-Tempo de execução:     1.23 s
+Entropy:            82.3%
+Diagnosis:          Very high — Healthy Table.
+Reliability:        99.94%
+✅ Integrity within expected range.
+Execution Time:     1.23 s
 ```
 
 ---
